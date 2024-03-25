@@ -1,6 +1,6 @@
 ﻿using StudentSystem_WebApiDB.Data.Models;
 
-namespace StudentSystem_WebApiDB.Data.DTO
+namespace StudentSystem_WebApiDB.Data.DTO.StudentDTO
 {
     public class StudentUpdateDTO
     {

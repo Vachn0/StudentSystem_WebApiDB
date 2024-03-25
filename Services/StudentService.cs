@@ -2,15 +2,15 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using StudentSystem_WebApiDB.Data;
-using StudentSystem_WebApiDB.Data.DTO;
+using StudentSystem_WebApiDB.Data.DTO.StudentDTO;
 using StudentSystem_WebApiDB.Data.Models;
+using StudentSystem_WebApiDB.Interface;
 
 namespace StudentSystem_WebApiDB.Services
 {
-    public class StudentService
+    public class StudentService : IStudentService
     {
         //(CRUD(Create, Read, Update, Delete)
-        //GetAll = Read
         private readonly ApplicationDbContext _db;
         private readonly IMapper _mapper;
 
@@ -20,6 +20,7 @@ namespace StudentSystem_WebApiDB.Services
             _mapper = mapper;
         }
 
+        //GetAll = Read
         public async Task<ICollection<Student>> GetAll()
         {
             var students = await _db.student.ToListAsync();

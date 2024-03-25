@@ -1,7 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using StudentSystem_WebApiDB.Data.DTO;
+using StudentSystem_WebApiDB.Data.DTO.StudentDTO;
 using StudentSystem_WebApiDB.Data.Models;
+using StudentSystem_WebApiDB.Interface;
 using StudentSystem_WebApiDB.Services;
 
 namespace StudentSystem_WebApiDB.Controllers
@@ -10,9 +11,9 @@ namespace StudentSystem_WebApiDB.Controllers
     [ApiController]
     public class StudentController : ControllerBase
     {
-        private readonly StudentService _studentService;
+        private readonly IStudentService _studentService;
 
-        public StudentController(StudentService studentService)
+        public StudentController(IStudentService studentService)
         {
             _studentService = studentService;
         }
