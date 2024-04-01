@@ -7,6 +7,6 @@
         public string LastName { get; set; }
         public string Specialty { get; set; }
         public DateTime DateOfBirth { get; set; }
-        public ICollection<Student> Students { get; set; }
+        //public virtual ICollection<Student> Students { get; set; }
     }
 }

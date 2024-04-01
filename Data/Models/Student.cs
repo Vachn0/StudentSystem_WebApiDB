@@ -6,7 +6,8 @@
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public DateTime DateOfBirth { get; set; }
+        public int Grade { get; set; }
         public int? LectorID { get; set; }
-        public ICollection<Lector> Lector { get; set; }
+        public virtual Lector Lectors { get; set; }
     }
 }

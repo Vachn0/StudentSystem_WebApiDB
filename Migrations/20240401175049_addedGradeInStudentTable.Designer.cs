@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using StudentSystem_WebApiDB.Data;
 
@@ -11,19 +12,33 @@ using StudentSystem_WebApiDB.Data;
 namespace StudentSystem_WebApiDB.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240401175049_addedGradeInStudentTable")]
+    partial class addedGradeInStudentTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "8.0.3")
-                .HasAnnotation("Proxies:ChangeTracking", false)
-                .HasAnnotation("Proxies:CheckEquality", false)
-                .HasAnnotation("Proxies:LazyLoading", true)
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("LectorStudent", b =>
+                {
+                    b.Property<int>("LectorID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("StudentsStudentID")
+                        .HasColumnType("int");
+
+                    b.HasKey("LectorID", "StudentsStudentID");
+
+                    b.HasIndex("StudentsStudentID");
+
+                    b.ToTable("LectorStudent");
+                });
 
             modelBuilder.Entity("StudentSystem_WebApiDB.Data.Models.Lector", b =>
                 {
@@ -80,23 +95,22 @@ namespace StudentSystem_WebApiDB.Migrations
 
                     b.HasKey("StudentID");
 
-                    b.HasIndex("LectorID");
-
                     b.ToTable("student");
                 });
 
-            modelBuilder.Entity("StudentSystem_WebApiDB.Data.Models.Student", b =>
+            modelBuilder.Entity("LectorStudent", b =>
                 {
-                    b.HasOne("StudentSystem_WebApiDB.Data.Models.Lector", "Lectors")
-                        .WithMany("Students")
-                        .HasForeignKey("LectorID");
+                    b.HasOne("StudentSystem_WebApiDB.Data.Models.Lector", null)
+                        .WithMany()
+                        .HasForeignKey("LectorID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Navigation("Lectors");
-                });
-
-            modelBuilder.Entity("StudentSystem_WebApiDB.Data.Models.Lector", b =>
-                {
-                    b.Navigation("Students");
+                    b.HasOne("StudentSystem_WebApiDB.Data.Models.Student", null)
+                        .WithMany()
+                        .HasForeignKey("StudentsStudentID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

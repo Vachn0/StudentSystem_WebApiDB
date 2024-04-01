@@ -6,10 +6,13 @@ namespace StudentSystem_WebApiDB.Interface
     public interface IStudentService
     {
         public Task<ICollection<Student>> GetAll();
+        public Task<List<List<Student>>> GroupByLectorId();
         public Task<Student> GetStudentByID(int id);
         public Task<bool> CreateStudent(StudentCreateDTO studentDTO);
         public Task<bool> UpdateStudent(StudentUpdateDTO studentDTO);
         public Task<bool> DeleteStudent(int id);
-        
+        public Task<string> GetAverageAge();
+        public Task<string> GetGradeMinMaxAvg();
+
     }
 }

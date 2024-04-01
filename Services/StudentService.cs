@@ -23,19 +23,43 @@ namespace StudentSystem_WebApiDB.Services
         //GetAll = Read
         public async Task<ICollection<Student>> GetAll()
         {
+
             var students = await _db.student.ToListAsync();
-            if(students is null)
+            if (students is null)
+            {
                 return null;
+            }
 
             return students;
+        }
+        public async Task<List<List<Student>>> GroupByLectorId()
+        {
+            var students = await _db.student
+                    .GroupBy(student => student.LectorID)
+                    .Select(group => group.ToList())
+                    .ToListAsync();
+
+            return students;
+
         }
         //GetByID
         public async Task<Student> GetStudentByID(int id)
         {
-            var student = await _db.student.FirstOrDefaultAsync(s => s.StudentID == id);
-            if (student is null)
+            try
+            {
+                //EagerLoading
+                var student = await _db.student.Include(x => x.Lectors).FirstOrDefaultAsync(s => s.StudentID == id);
+
+                if (student is null)
+                {
+                    return null;
+                }
+                return student;
+            }
+            catch (Exception ex)
+            {
                 return null;
-            return student;
+            }
         }
         //Create
         public async Task<bool> CreateStudent(StudentCreateDTO studentDTO)
@@ -61,8 +85,8 @@ namespace StudentSystem_WebApiDB.Services
             try
             {
                 var studentToUpdate = await _db.student.FirstOrDefaultAsync(x => x.StudentID == studentDTO.StudentID);
-                
-                if(studentToUpdate is null) 
+
+                if (studentToUpdate is null)
                     return false;
 
                 _mapper.Map(studentDTO, studentToUpdate);
@@ -94,6 +118,34 @@ namespace StudentSystem_WebApiDB.Services
             catch (Exception ex)
             {
                 return false;
+            }
+        }
+
+        //AggregationFunctions (Average Age, Average Grade)
+        public async Task<string> GetAverageAge()
+        {
+            try
+            {
+                var avgAge = "Average Student Age is " + _db.student.Average(x => DateTime.Now.Year - x.DateOfBirth.Year);
+                return avgAge;
+            }
+            catch (Exception ex)
+            {
+                return $"Error occured! + {ex}";
+            }
+        }
+        public async Task<string> GetGradeMinMaxAvg()
+        {
+            try
+            {
+                var maxGrade = "Max Grade = " + _db.student.Max(x => x.Grade);
+                var minGrade = "Min Grade = " + _db.student.Min(x => x.Grade);
+                var avgGrade = "Average Grade = " + _db.student.Average(x => x.Grade);
+                return $"{maxGrade}\n{minGrade}\n{avgGrade}";
+            }
+            catch (Exception ex)
+            {
+                return $"Error occured! + {ex}";
             }
         }
     }

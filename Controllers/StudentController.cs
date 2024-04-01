@@ -23,13 +23,18 @@ namespace StudentSystem_WebApiDB.Controllers
             var result = await _studentService.GetAll();
             return result;
         }
+        [HttpGet("Group Students By Lector ID")]
+        public async Task<List<List<Student>>> GroupByLectorId()
+        {
+            var result = await _studentService.GroupByLectorId();
+            return result;
+        }
         [HttpGet("{id}")]
         public async Task<Student> GetStudentByID(int id)
         {
             var result = await _studentService.GetStudentByID(id);
             return result;
         }
-
         [HttpPost]
         public async Task<bool> CreateStudent(StudentCreateDTO model)
         {
@@ -47,6 +52,18 @@ namespace StudentSystem_WebApiDB.Controllers
         {
             var result = await _studentService.DeleteStudent(id);
             return result;
+        }
+        [HttpGet("Average Age")]
+        public async Task<string> GetAverageAge()
+        {
+            var result = await _studentService.GetAverageAge();
+            return $"Average Age\n{result}";
+        }
+        [HttpGet("MinMaxAvg Grade")]
+        public async Task<string> GetGradeMinMaxAvg()
+        {
+            var result = await _studentService.GetGradeMinMaxAvg();
+            return $"MinMaxAvg Grade\n{result}";
         }
     }
 }

@@ -7,6 +7,7 @@ namespace StudentSystem_WebApiDB.Data.DTO.StudentDTO
         public int StudentID { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        public int Grade { get; set; }
         public DateTime DateOfBirth { get; set; }
         public int LectorID { get; set; }
     }
