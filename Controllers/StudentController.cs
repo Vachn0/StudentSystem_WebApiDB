@@ -17,6 +17,7 @@ namespace StudentSystem_WebApiDB.Controllers
         {
             _studentService = studentService;
         }
+
         [HttpGet]
         public async Task<ICollection<Student>> GetAll()
         {

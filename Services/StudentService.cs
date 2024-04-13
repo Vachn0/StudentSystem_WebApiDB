@@ -29,7 +29,6 @@ namespace StudentSystem_WebApiDB.Services
             {
                 return null;
             }
-
             return students;
         }
         public async Task<List<List<Student>>> GroupByLectorId()
@@ -40,7 +39,6 @@ namespace StudentSystem_WebApiDB.Services
                     .ToListAsync();
 
             return students;
-
         }
         //GetByID
         public async Task<Student> GetStudentByID(int id)
